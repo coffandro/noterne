@@ -1,0 +1,7 @@
+make -C src
+make[1]: Entering directory '/mnt/Vault/prog/cpp/noterne/src'
+make noteren
+make[2]: Entering directory '/mnt/Vault/prog/cpp/noterne/src'
+emcc -o ../bin/noteren.html ../bin/main.o ../bin/bridge/brige.o ../bin/client/client.o ../bin/server/server.o -Wall -D_DEFAULT_SOURCE -Wno-missing-braces -Wno-unused-value -Wno-pointer-sign  -std=gnu99 -O3 -I. -Iexternal -I../include//raylib/src -L. -L../include/ -sUSE_GLFW=3 -sTOTAL_MEMORY=128MB -sSTACK_SIZE=1MB -sFORCE_FILESYSTEM=1 -sMINIFY_HTML=0 -sASYNCIFY -sASYNCIFY_STACK_SIZE=1048576 --shell-file shell.html ../include//libraylib.web.a -DPLATFORM_WEB
+make[2]: Leaving directory '/mnt/Vault/prog/cpp/noterne/src'
+make[1]: Leaving directory '/mnt/Vault/prog/cpp/noterne/src'

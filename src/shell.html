@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Noteren</title>
+
+    <meta name="title" content="Noteren">
+    <meta name="description" content="A notes application client">
+    <meta name="keywords" content="notes, html, c">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
+
+    <!-- Web Style -->
+    <style>
+        body {
+            margin: 0px;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+        }
+
+        canvas.emscripten {
+            flex-grow: 1;
+        }
+    </style>
+    <script type='text/javascript'
+        src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"> </script>
+    <script type='text/javascript'>
+        function saveFileFromMEMFSToDisk(memoryFSname, localFSname)     // This can be called by C/C++ code
+        {
+            var isSafari = false; // Not supported, navigator.userAgent access is being restricted
+            //var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            var data = FS.readFile(memoryFSname);
+            var blob;
+
+            if (isSafari) blob = new Blob([data.buffer], { type: "application/octet-stream" });
+            else blob = new Blob([data.buffer], { type: "application/octet-binary" });
+
+            // NOTE: SaveAsDialog is a browser setting. For example, in Google Chrome,
+            // in Settings/Advanced/Downloads section you have a setting:
+            // 'Ask where to save each file before downloading' - which you can set true/false.
+            // If you enable this setting it would always ask you and bring the SaveAsDialog
+            saveAs(blob, localFSname);
+        }
+    </script>
+</head>
+
+<body>
+    <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+    <script>
+        var Module = {
+            print: (function () {
+                return function (text) {
+                    if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                    console.log(text);
+                };
+            })(),
+            canvas: (function () {
+                var canvas = document.getElementById('canvas');
+                return canvas;
+            })(),
+            onRuntimeInitialized: function () {
+                function resizeCanvasAndClient() {
+                    var canvas = Module.canvas;
+                    var width = window.innerWidth | 0;
+                    var height = window.innerHeight | 0;
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+
+                    if (typeof Module._set_dimensions === 'function') {
+                        Module._set_dimensions(width, height);
+                    }
+                }
+
+                window.addEventListener('resize', resizeCanvasAndClient);
+                resizeCanvasAndClient();
+            }
+        };
+    </script>
+    {{{ SCRIPT }}}
+</body>
+
+</html>
