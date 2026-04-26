@@ -1,4 +1,5 @@
 #include "client.h"
+#include "gui.h"
 #include "raylib.h"
 #include <stdio.h>
 
@@ -36,16 +37,34 @@ void ClientMainloop() {
   }
 
   // Update
-  Rectangle draw_rect = {.x = 10, .y = 10, .width = 100, .height = 100};
+  Rectangle draw_rect = {
+      .x = 0, .y = 0, .width = screenWidth, .height = screenHeight};
 
   // Draw
   BeginDrawing();
 
   ClearBackground(RAYWHITE);
 
-  if (GuiButton(draw_rect, "AAAAAAA")) {
+  rect_shrink(&draw_rect, 8);
+
+  Rectangle top = rect_cut_top(&draw_rect, 48);
+
+  if (GuiButton(rect_cut_left(&top, 48), "X")) {
     printf("Hi!\n");
   }
+
+  if (GuiButton(rect_cut_left(&top, 48), "||")) {
+    printf("Hi!\n");
+  }
+
+  if (GuiButton(rect_cut_left(&top, 48), "-")) {
+    printf("Hi!\n");
+  }
+
+  DrawRectangleRec(top, BLUE);
+
+  DrawRectangle(draw_rect.x, draw_rect.y, draw_rect.width, draw_rect.height,
+                ORANGE);
 
   EndDrawing();
 }
