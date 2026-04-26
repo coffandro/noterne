@@ -2,6 +2,9 @@
 #include "raylib.h"
 #include <stdio.h>
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
 #ifdef __EMSCRIPTEN__
 #include "emscripten.h"
 #define WEB_EXPORT EMSCRIPTEN_KEEPALIVE
@@ -33,13 +36,17 @@ void ClientMainloop() {
   }
 
   // Update
+  Rectangle draw_rect = {.x = 10, .y = 10, .width = 100, .height = 100};
 
   // Draw
   BeginDrawing();
 
   ClearBackground(RAYWHITE);
 
-  DrawRectangle(10, 10, 100, 100, RAYWHITE);
+  if (GuiButton(draw_rect, "AAAAAAA")) {
+    printf("Hi!\n");
+  }
+
   EndDrawing();
 }
 
