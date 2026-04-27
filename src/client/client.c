@@ -45,8 +45,6 @@ void ClientMainloop() {
 
   ClearBackground(RAYWHITE);
 
-  rect_shrink(&draw_rect, 8);
-
   Rectangle top = rect_cut_top(&draw_rect, 48);
 
   if (GuiButton(rect_cut_left(&top, 48), "X")) {
